@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=yes">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+
+	<title>Feed Your Brain</title>
+
+	<link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+	<link href="stylesheet.css" type="text/css">
+
+	<script src="game.js"></script>
+
+</head>
+
+<body>
+	<script language="javascript">
+		var
+		numcorrect = 0,
+		qnum = 0,
+		inputbox,
+		right,
+		linebreak,
+		canvas,
+		width,
+		height,
+		okbtn,
+		img,
+		wrong,
+		correct,
+		dig1,
+		dig2,
+		end = false,
+		question = {
+			number1: Math.floor((Math.random() * (Math.pow(10, dig1)-Math.pow(10,dig1-1))) + Math.pow(10, dig1-1)),
+			number2: Math.floor((Math.random() * (Math.pow(10, dig2)-Math.pow(10,dig2-1))) + Math.pow(10, dig2-1)),
+			update: function(){
+				number1 = Math.floor((Math.random() * (Math.pow(10, dig1)-Math.pow(10,dig1-1))) + Math.pow(10, dig1-1));
+				number2 = Math.floor((Math.random() * (Math.pow(10, dig2)-Math.pow(10,dig2-1))) + Math.pow(10, dig2-1));
+			},
+			draw: function(){
+				var ctx = canvas.getContext("2d");
+
+				ctx.textAlign = "center";
+				ctx.fillText(number1, width/2, 172);
+				ctx.fillText(number2, width/2, 217);
+				ctx.font = "24px Arvo";
+				ctx.textAlign = "right";
+				ctx.fillText("X", width/2-49, 193);
+
+				ctx.moveTo(width/2-60,225);
+				ctx.lineTo(width/2+60, 225);
+				ctx.stroke();
+			},
+			check: function(){
+				if(number2*number1==inputbox.value){
+					right = true;
+					numcorrect += 1;
+				}
+				else
+					right = false;
+				results();
+			}
+		};
+
+		function draw(number){
+			var ctx = canvas.getContext("2d");
+
+			ctx.clearRect(0, 0, width, height);
+			document.getElementById("again").style.display = "none";
+
+			inputbox.value = "";
+
+			inputbox.style.display = "block";
+			document.getElementById("okbtn").style.display = "block";
+
+			ctx.drawImage(img, 10, 23);
+
+			ctx.font = "30px Arvo";
+			question.draw();
+		}
+
+		function results(){
+			var ctx = canvas.getContext("2d");
+			ctx.clearRect(0, 0, width, height);
+			inputbox.style.display = "none";
+			document.getElementById("okbtn").style.display = "none";
+			if((qnum-numcorrect)>=3){ //if got 3 wrong
+				ctx.font = "50px Arvo";
+				ctx.textAlign = "center";
+				ctx.fillText(numcorrect+" correct.", width/2, 100);
+				setTimeout(function(){ mainScreen(); }, 3000);	
+			}
+			else{
+				if(right){
+					ctx.drawImage(correct, width/2-correct.width/2, 50);
+				}
+				else{
+					ctx.drawImage(wrong, width/2-wrong.width/2, 50);
+				}
+				document.getElementById("again").style.display = "block";
+			}
+		}
+
+		function run(){
+			qnum += 1;
+			question.update();
+			draw(qnum);
+		}
+	
+		function timeOut(){
+
+		}
+
+		function main(){
+			canvas = document.createElement("canvas");
+
+			width = window.innerWidth;
+			height = window.innerHeight;
+
+			canvas.width = width;
+			canvas.height = height/4+46;
+
+			document.body.appendChild(canvas);
+
+			inputbox = document.createElement("input");
+			inputbox.style.marginTop = "23px";
+			inputbox.style.marginLeft = "50%";
+			inputbox.style.transform = "translate(-50%, 0%)";
+			document.body.appendChild(inputbox);
+
+			linebreak = document.createElement("br");
+			document.body.appendChild(linebreak);
+
+			img = new Image();
+			img.src = "res/BrainLogo.png";
+
+			correct = new Image();
+			correct.src = "res/Correct.png";
+
+			wrong = new Image();
+			wrong.src = "res/Wrong.png";
+
+			var listvalues = localStorage.getItem('lists');
+			var finalvalue = JSON.parse(listvalues);
+
+			dig1 = finalvalue[0];
+			dig2 = finalvalue[1];
+		}
+		main();
+		setVal();
+	</script>
+
+	<input type="image" id="okbtn" style="margin-top: 30px; margin-left: 50%; transform: translate(-50%, 0%)" src="res/AnswerBtn.png" onClick="question.check()"/>
+	<input type="image" id="again" style="margin-top: 50px; margin-left: 50%; transform: translate(-50%, 0%)" src="res/PlayAgain.png" onClick="run()"/>
+
+	<script>
+		document.getElementById("again").style.display = "none";
+		img.onload = function(){
+			run();
+		}
+	</script>
+</body>
+
+</html>

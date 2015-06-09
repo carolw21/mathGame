@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=yes">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+
+	<title>Feed Your Brain</title>
+
+	<link href="stylesheet.css" type="text/css">
+
+	<!-- bin/jquery.slider.min.css -->
+	<link rel="stylesheet" href="jslider/css/jslider.css" type="text/css">
+	<link rel="stylesheet" href="jslider/css/jslider.blue.css" type="text/css">
+	<link rel="stylesheet" href="jslider/css/jslider.plastic.css" type="text/css">
+	<link rel="stylesheet" href="jslider/css/jslider.round.css" type="text/css">
+	<link rel="stylesheet" href="jslider/css/jslider.round.plastic.css" type="text/css">
+	 <!-- end -->
+
+	 <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+
+	<script type="text/javascript" src="jslider/js/jquery-1.7.1.js"></script>
+	
+	<!-- bin/jquery.slider.min.js -->
+	<script type="text/javascript" src="jslider/js/jshashtable-2.1_src.js"></script>
+	<script type="text/javascript" src="jslider/js/jquery.numberformatter-1.2.3.js"></script>
+	<script type="text/javascript" src="jslider/js/tmpl.js"></script>
+	<script type="text/javascript" src="jslider/js/jquery.dependClass-0.1.js"></script>
+	<script type="text/javascript" src="jslider/js/draggable-0.1.js"></script>
+	<script type="text/javascript" src="jslider/js/jquery.slider.js"></script>
+	 <!-- end -->
+
+	<script src="game.js"></script>
+
+	<script language="javascript">
+
+		function process(){
+			var val1 = document.getElementById('Slider1').value;
+			var val2 = document.getElementById('Slider2').value;
+			var listvalues = [val1, val2];
+			localStorage.setItem('lists', JSON.stringify(listvalues));
+			qScreen();
+		}
+
+	</script>
+
+</head>
+
+<body>
+
+	<div style="margin-left: 50%; transform: translate(-50%, 0%)">
+		<img style="margin-top: 16px; margin-bottom: 10px; margin-left: 50%; margin-right: 50%; transform: translate(-50%, 0%)" src="res/BrainLogo.png" />
+		<img style="margin-bottom: 10px; margin-left: 50%; margin-right: 50%; transform: translate(-50%, 0%)" src="res/GameTitle.png" />
+		<div class="layout-slider" style="font-family: Arvo; font-size: 16px; margin-top: 5px"> Number of Digits for Number #1 <span style="display: inline-block; width: 50%; padding: 0px 10px; padding-bottom: 2px"><input id="Slider1" class="jslider" type="slider" name="# of digits" value="1" /></span>  
+	    </div>
+	    <script type="text/javascript" charset="utf-8">
+	      jQuery("#Slider1").slider({ from: 1, to: 6, step: 1, smooth: true, round: 0, dimension: "&nbsp;", skin: "plastic"});
+	    </script>
+	    <div class="layout-slider" style="font-family: Arvo; font-size: 16px; margin-top: 12px"> Number of Digits for Number #2 <span style="display: inline-block; width: 50%; padding: 0px 10px; padding-bottom: 2px"><input id="Slider2" class="jslider" type="slider" name="# of digits" value="1" /></span>  
+	    </div>
+	    <script type="text/javascript" charset="utf-8">
+	      jQuery("#Slider2").slider({ from: 1, to: 6, step: 1, smooth: true, round: 0, dimension: "&nbsp;", skin: "plastic"});
+	    </script>
+		<input style="margin-top: 5%; margin-left: 50%; margin-right: 50%; transform: translate(-50%, 0%)" type="image" src="res/Start.png" onClick="process()" />
+	</div>
+
+</body>
+
+</html>
